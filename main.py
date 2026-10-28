@@ -2,6 +2,12 @@ import sys
 import time
 import random
 
+def rand_range(min, max):
+    max = max / 100
+    min = min / 100
+    return min, max
+
+
 def main():
     words = {'hi': 0, 'hello': 1, 'good': 2, 'morning': 3, 'bye': 4, 'see': 5, 'you': 6, 'goodbye': 7, 'how': 8, 'are': 9, 'what': 10, 'is': 11, 'this': 12, 'ok': 13, 'my': 14, 'friend': 15, 'later': 16, 'i': 17, 'am': 18, 'fine': 19, '[end]': 20}
     word_ids = {}
@@ -25,9 +31,10 @@ def main():
     ]
 
 
-    print("Vocabulary:", words)
-    print("Words count:", len(words))
-    print("Training data:")
+    # print("Vocabulary:", words)
+    # print("Words count:", len(words))
+    # print("Training data:")
+    
     # while True:
     #     for i in range(len(training_data)):
     #         print()
@@ -181,24 +188,134 @@ def main():
             (14,  "you",         "later",    1000),
             (15,  "later",       "[end]",    9999),
         ]
-        
-        # maximum_mark = 0
-        # temp = 0
-        
-        # for i in range():
+
+        mark = []
+        input_ = []
+        generated = []
+        idx = []
+        prepare_arr = []
+        temp = 0
+        for item in marks:
+            prepare_arr.append(item)
+
+        for item in prepare_arr:
+            for i in range(len(item)):
+                if i == 3:
+                    mark.append(item[i])
+                if i == 2:
+                    generated.append(item[i])
+                if i == 1:
+                    input_.append(item[i])
+                if i == 0:
+                    idx.append(item[i])
+                    # print(item[i])
 
 
+        for j in range(len(mark)-1):
+            for i in range(len(mark)-1):
+                if mark[i] <= mark[i+1]:
+                    temp = mark[i]
+                    mark[i] = mark[i+1]
+                    mark[i+1] = temp
+                    temp = generated[i]
+                    generated[i] = generated[i+1]
+                    generated[i+1] = temp
+                    temp = input_[i]
+                    input_[i] = input_[i+1]
+                    input_[i+1] = temp
+                    temp = idx[i]
+                    idx[i] = idx[i+1]
+                    idx[i+1] = temp
+        
+        minimum_mark = mark[len(mark)-1]
+        maximum_mark = mark[0]
+        # print(minimum_mark)
+        # print(maximum_mark)
+        
+
+
+
+
+        # for i in range(len(mark)):
+        #     print(idx[i], input_[i], generated[i], mark[i])
+        count = 0
+        precision = 0
+
+        answer = question
+        for i in range(len(mark)):
+            if answer == input_[i]:
+                # print(idx[i], input_[i], generated[i], mark[i])
+                count += 1
+            if answer == input_[i] and not "[end]" in answer and maximum_mark >= minimum_mark and not "[end]" in answer:
+                # print(generated[i], end=' ')
+                answer = generated[i]
+
+        # precision
+        answer = question
+        for i in range(len(mark)):
+            if answer == input_[i]:
+                precision += mark[i]
+                print(idx[i], input_[i], generated[i], mark[i], precision)
+            if answer == input_[i] and not "[end]" in answer and maximum_mark >= minimum_mark and not "[end]" in answer:
+                # print(generated[i], end=' ')
+                answer = generated[i]
+        print(count, precision)
+
+        # for i in range(len(mark)):
+        #
+        #     # if question == input_[i]:
+        #         # random.randint(0, n)
+        #         # print(idx[i], input_[i], generated[i], mark[i], precision)
+        #         # print(idx[i], input_[i], generated[i], mark[i])
+        #
+        #     # for j in range(len(mark)-1):
+        #     #     for i in range(len(mark)-1):
+        #     #         if mark[i] <= mark[i+1]:
+        #     #             temp = mark[i]
+        #     #             mark[i] = mark[i+1]
+        #     #             mark[i+1] = temp
+        #
+        #     # if question == input_[i]:
+        #     #     print(idx[i], input_[i], generated[i], mark[i])
+        #
+        #     # for i in range(len(mark)):
+        #     #     print(idx[i], input_[i], generated[i], mark[i])
+        #
+        #     # print(answer, "==", input_[i])
+        #     if answer == input_[i]:
+        #         print(generated[i], end=' ')
+        #         answer = generated[i]
+
+        answer = question
+        for i in range(len(mark)):
+            
+            if question == input_[i]:
+                print(random.randint(0, precision))
+                print(idx[i], input_[i], generated[i], mark[i], precision)
                 
+            # for j in range(len(mark)-1):
+            #     for i in range(len(mark)-1):
+            #         if mark[i] <= mark[i+1]:
+            #             temp = mark[i]
+            #             mark[i] = mark[i+1]
+            #             mark[i+1] = temp
 
+            # if question == input_[i]:
+            #     print(idx[i], input_[i], generated[i], mark[i])
 
-        for idx, input_, generated, mark in marks:
-            # if not "[end]" in question:
-            #     if input_ in question:
-            #         print(generated)
+            # for i in range(len(mark)):
+            #     print(idx[i], input_[i], generated[i], mark[i])
 
-            if question == input_:
-                print(generated, end=' ')
-                question = generated
+            # print(answer, "==", input_[i])
+            if answer == input_[i]:
+                print(generated[i], end=' ')
+                answer = generated[i]
+            
+
+        # for idx, input_, generated, mark in marks:
+        #     if question == input_:
+        #         print(generated, end=' ')
+        #         question = generated
             
 
         # presition = random.random()
